@@ -1,0 +1,148 @@
+SQL QUERIES
+py manage.py sqlmigrate chatapp 0001
+py manage.py makemigrations chatapp
+py manage.py migrate
+py manage.py createsuperuser
+py manage.py runserver
+cd chat
+
+from chatapp.models import User, Message, Group
+
+user1 = User(username='Admin', password='rizz', usergroup= group)
+user1.save()
+print(User.objects.all().values())
+print(Group.objects.all().values())
+print(Message.objects.all().values())
+group = Group.objects.get(groupid="A00")
+user = 
+message = Message(messagecontent="Hi guys", messagegroup = group, messagesender= User.objects.get(username="Admin"))
+message.save()
+
+BEGIN;
+--
+-- Create model Group
+--
+CREATE TABLE "chatapp_group" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "groupname" varchar(255) NOT NULL, "groupid" varchar(255) NOT NULL, "groupkey" varchar(255) NOT NULL);
+COMMIT;
+
+BEGIN;
+--
+-- Remove field id from group
+--
+CREATE TABLE "new__chatapp_group" ("groupname" varchar(255) NOT NULL, "groupid" varchar(255) NOT NULL, "groupkey" varchar(255) NOT NULL);
+INSERT INTO "new__chatapp_group" ("groupname", "groupid", "groupkey") SELECT "groupname", "groupid", "groupkey" FROM "chatapp_group";
+DROP TABLE "chatapp_group";
+ALTER TABLE "new__chatapp_group" RENAME TO "chatapp_group";
+--
+-- Alter field groupid on group
+--
+CREATE TABLE "new__chatapp_group" ("groupid" varchar(3) NOT NULL PRIMARY KEY, "groupname" varchar(255) NOT NULL, "groupkey" varchar(255) NOT NULL);
+INSERT INTO "new__chatapp_group" ("groupname", "groupkey", "groupid") SELECT "groupname", "groupkey", "groupid" FROM "chatapp_group";
+DROP TABLE "chatapp_group";
+ALTER TABLE "new__chatapp_group" RENAME TO "chatapp_group";
+--
+-- Alter field groupkey on group
+--
+CREATE TABLE "new__chatapp_group" ("groupname" varchar(255) NOT NULL, "groupid" varchar(3) NOT NULL PRIMARY KEY, "groupkey" varchar(4) NOT NULL);
+INSERT INTO "new__chatapp_group" ("groupname", "groupid", "groupkey") SELECT "groupname", "groupid", "groupkey" FROM "chatapp_group";
+DROP TABLE "chatapp_group";
+ALTER TABLE "new__chatapp_group" RENAME TO "chatapp_group";
+COMMIT;
+
+BEGIN;
+--
+-- Create model User
+--
+CREATE TABLE "chatapp_user" ("username" varchar(255) NOT NULL PRIMARY KEY, "password" varchar(255) NOT NULL, "usergroup_id" varchar(3) NOT NULL REFERENCES "chatapp_group" ("groupid") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Message
+--
+CREATE TABLE "chatapp_message" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "messagecontent" text NOT NULL, "messagegroup_id" varchar(3) NOT NULL REFERENCES "chatapp_group" ("groupid") DEFERRABLE INITIALLY DEFERRED, "messagesender_id" varchar(255) NOT NULL REFERENCES "chatapp_user" ("username") DEFERRABLE INITIALLY DEFERRED);
+CREATE INDEX "chatapp_user_usergroup_id_077726b0" ON "chatapp_user" ("usergroup_id");
+CREATE INDEX "chatapp_message_messagegroup_id_638ae9b1" ON "chatapp_message" ("messagegroup_id");
+CREATE INDEX "chatapp_message_messagesender_id_b904f496" ON "chatapp_message" ("messagesender_id");
+COMMIT;
+
+
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            background-color: #0078D7;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 20px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 400px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .message {
+            margin-bottom: 15px;
+        }
+
+        .message .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #0078D7;
+        }
+
+        .message .text {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            padding: 10px 20px;
+            background-color: #0078D7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #005bb5;
+        }
+    </style>

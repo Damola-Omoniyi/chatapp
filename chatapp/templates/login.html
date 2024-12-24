@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Login - School Forum</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href= "{%static 'design.css' %}" /> 
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-header">
+            School Forum Login
+        </div>
+        <form class="login-form" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" id="username" name ="username" placeholder="Enter your username" required>
+    
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    
+            <label for="group-key">Group Key</label>
+            <input type="text" id="group-key" name="group-key" placeholder="Enter your group key" required>
+    
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

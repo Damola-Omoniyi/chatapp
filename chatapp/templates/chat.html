@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Forum Chat</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href= "{%static 'design.css' %}" /> 
+   
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        School Forum Chat
+    </div>
+    <div class="chat-messages" id="chat-messages">
+       
+        {% for message in messages%}
+        <div class="message">
+            <div class="username">{{message.messagesender_id}}</div>
+            <div class="text">{{message.messagecontent}}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <form class="chat-input" method="POST" action="{% url 'chat' %}">
+        {% csrf_token %}
+        <input type="text" name="newmessage" placeholder="Type a message..." id="message-input">
+        <button  type="submit">Send</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('chat-form').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent the form from submitting normally
+
+        const messageInput = document.getElementById('message-input');
+        const messageText = messageInput.value.trim();
+
+        if (messageText) {
+            // Add message to the chat display
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+
+            const usernameElement = document.createElement('div');
+            usernameElement.classList.add('username');
+            usernameElement.textContent = 'You';  // Replace with dynamic username later
+
+            const textElement = document.createElement('div');
+            textElement.classList.add('text');
+            textElement.textContent = messageText;
+
+            messageElement.appendChild(usernameElement);
+            messageElement.appendChild(textElement);
+
+            messagesContainer.appendChild(messageElement);
+
+            // Clear the input field
+            messageInput.value = '';
+
+            // Scroll to the latest message
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Submit the form using AJAX to store the message in the database
+            const formData = new FormData(document.getElementById('chat-form'));
+            fetch("{% url 'chat' %}", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())  // Expect a JSON response
+            .then(data => {
+                // Optionally handle the response from the server if needed
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
