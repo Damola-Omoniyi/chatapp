@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Forum Chat</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href= "{%static 'design.css' %}" /> 
-   
+
 </head>
 <body>
 
 <div class="chat-container">
     <div class="chat-header">
-        School Forum Chat
+        {{group_name}}
     </div>
     <div class="chat-messages" id="chat-messages">
        
@@ -79,6 +77,139 @@
         }
     });
 </script>
+<style> body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
 
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-header {
+            background-color: #0078D7;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 20px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .login-form label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-form button {
+            padding: 10px;
+            background-color: #0078D7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #005bb5;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            background-color: #0078D7;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 20px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 400px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .message {
+            margin-bottom: 15px;
+        }
+
+        .message .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #0078D7;
+        }
+
+        .message .text {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            padding: 10px 20px;
+            background-color: #0078D7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #005bb5;
+        }</style>
 </body>
 </html>
