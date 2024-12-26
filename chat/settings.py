@@ -77,11 +77,8 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'chatapp',
-        'USER': 'adedamola',
-        'PASSWORD': 'account2018',
+       
         'HOST': 'chatapp-database.cdsmi24ca9yi.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432'
     }
 }
 
